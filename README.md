@@ -232,9 +232,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Yasir** - Frontend Developer
 
-- **Portfolio**: [](yasirarafath.vercel.app)
-- **LinkedIn**: [](linkedin.com/mdyasirarafath)
-- **GitHub**: [](github.com/mdyasir1)
+- **Portfolio**: [Portfolio](yasirarafath.vercel.app)
+- **LinkedIn**: [LinkedIn](linkedin.com/mdyasirarafath)
+- **GitHub**: [Github](github.com/mdyasir1)
 
 ---
 
