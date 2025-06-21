@@ -2,11 +2,6 @@
 
 A beautiful, modern e-commerce web application built with React, TypeScript, and Tailwind CSS. This project demonstrates advanced frontend development skills with a focus on user experience, performance, and modern design patterns.
 
-![YasirNest Preview](https://img.shields.io/badge/Status-Live%20Demo-blue)
-![React](https://img.shields.io/badge/React-19.0.0-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-blue)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4.17-blue)
-
 ## ✨ Features
 
 ### 🎨 **Modern UI/UX Design**
@@ -237,9 +232,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Yasir** - Frontend Developer
 
-- **Portfolio**: [Your Portfolio URL]
-- **LinkedIn**: [Your LinkedIn]
-- **GitHub**: [Your GitHub]
+- **Portfolio**: [yasirarafath.vercel.app]
+- **LinkedIn**: [linkedin.com/mdyasirarafath]
+- **GitHub**: [github.com/mdyasir1]
 
 ---
 
