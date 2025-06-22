@@ -2,7 +2,9 @@
 
 A modern e-commerce platform built with React, TypeScript, and Tailwind CSS.
 
-[Live Demo](https://your-demo-url.com) • [Technologies](#technologies) • [Features](#features)
+**Development Time**: Built in just **9 days**, working **1–2 hours per day**.
+
+[Live Demo](https://yasir-nest.vercel.app) • [Technologies](#technologies) • [Features](#features)
 
 ---
 
