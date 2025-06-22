@@ -5,20 +5,11 @@ import ProductCard from "../components/ProductCard";
 import { Product } from "../types/product";
 import { useSearchParams } from "react-router-dom";
 
-type Category = {
-  slug: string;
-  name: string;
-  url: string;
-};
-
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState<string>("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
 
@@ -31,10 +22,6 @@ const Home = () => {
         );
         const productData = await productRes.json();
         setProducts(productData.products);
-
-        const catRes = await fetch("https://dummyjson.com/products/categories");
-        const catData = await catRes.json();
-        setCategories(catData);
       } catch (error) {
         console.error("Error fetching data", error);
       } finally {
@@ -49,26 +36,24 @@ const Home = () => {
 
   // Search filter
   if (searchQuery) {
-    filtered = filtered.filter(
-      (product) =>
-        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.brand.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    try {
+      const query = searchQuery.toLowerCase().trim();
+      filtered = filtered.filter(
+        (product) =>
+          (product.title && product.title.toLowerCase().includes(query)) ||
+          (product.description &&
+            product.description.toLowerCase().includes(query)) ||
+          (product.category &&
+            product.category.toLowerCase().includes(query)) ||
+          (product.price && product.price.toString().includes(query)) ||
+          (product.rating && product.rating.toString().includes(query))
+      );
+    } catch (error) {
+      console.error("Search filter error:", error);
+      // If search fails, show all products
+      filtered = products;
+    }
   }
-
-  // Category filter
-  if (selectedCategory) {
-    filtered = filtered.filter(
-      (product) => product.category === selectedCategory
-    );
-  }
-
-  // Price range filter
-  filtered = filtered.filter(
-    (product) =>
-      product.price >= priceRange[0] && product.price <= priceRange[1]
-  );
 
   // Sort products
   switch (sortBy) {
@@ -120,57 +105,13 @@ const Home = () => {
             Shop the latest trends with our curated collection of premium
             products
           </motion.p>
-
-          {searchQuery && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-white/10 backdrop-blur-sm rounded-lg p-4 inline-block"
-            >
-              <p className="text-lg">
-                Search results for:{" "}
-                <span className="font-semibold">"{searchQuery}"</span>
-              </p>
-              <p className="text-sm text-blue-100">
-                {filtered.length} product{filtered.length !== 1 ? "s" : ""}{" "}
-                found
-              </p>
-            </motion.div>
-          )}
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Filters and Controls */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            {/* Categories */}
-            <div className="flex gap-2 overflow-auto pb-2 lg:pb-0">
-              <button
-                onClick={() => setSelectedCategory("")}
-                className={`px-4 py-2 rounded-full border whitespace-nowrap transition-colors ${
-                  selectedCategory === ""
-                    ? "bg-blue-600 text-white border-blue-600"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-blue-300"
-                }`}
-              >
-                All Products
-              </button>
-              {categories.map((cat) => (
-                <button
-                  key={cat.slug}
-                  onClick={() => setSelectedCategory(cat.slug)}
-                  className={`px-4 py-2 rounded-full border whitespace-nowrap transition-colors capitalize ${
-                    selectedCategory === cat.slug
-                      ? "bg-blue-600 text-white border-blue-600"
-                      : "bg-white text-gray-600 border-gray-200 hover:border-blue-300"
-                  }`}
-                >
-                  {cat.name}
-                </button>
-              ))}
-            </div>
-
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-end gap-4">
             {/* Controls */}
             <div className="flex items-center gap-4">
               {/* Sort */}
@@ -211,23 +152,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
-          {/* Price Range */}
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Price Range: ${priceRange[0]} - ${priceRange[1]}
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="2000"
-              value={priceRange[1]}
-              onChange={(e) =>
-                setPriceRange([priceRange[0], parseInt(e.target.value)])
-              }
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
         </div>
 
         {/* Products Grid */}
@@ -244,11 +168,10 @@ const Home = () => {
             <p className="text-gray-500 mb-4">
               Try adjusting your search criteria or browse all products
             </p>
+
             <button
               onClick={() => {
-                setSelectedCategory("");
                 setSearchParams({});
-                setPriceRange([0, 2000]);
                 setSortBy("");
               }}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -271,7 +194,7 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <ProductCard product={product} />
+                <ProductCard product={product} searchQuery={searchQuery} />
               </motion.div>
             ))}
           </div>

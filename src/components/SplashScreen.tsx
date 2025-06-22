@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ShoppingBag, Sparkles } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 
 const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
   const [progress, setProgress] = useState(0);
@@ -85,22 +85,7 @@ const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
         </motion.p>
 
         {/* Sparkles */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-          className="flex justify-center gap-2 mb-8"
-        >
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            >
-              <Sparkles className="w-6 h-6 text-yellow-300" />
-            </motion.div>
-          ))}
-        </motion.div>
+
 
         {/* Progress Bar */}
         <motion.div
@@ -116,16 +101,6 @@ const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
             transition={{ duration: 0.1 }}
           />
         </motion.div>
-
-        {/* Loading Text */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.5 }}
-          className="text-white/80 text-sm"
-        >
-          Loading amazing products... {progress}%
-        </motion.p>
       </div>
 
       {/* Developer Credit */}

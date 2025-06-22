@@ -14,7 +14,7 @@ const Footer = () => {
             <p className="text-sm text-gray-500 mt-1">
               Designed & Developed with ❤️ by{" "}
               <a
-                href="https://github.com/mdyasir"
+                href="https://github.com/mdyasir1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium text-blue-600 hover:underline"
@@ -25,7 +25,7 @@ const Footer = () => {
           </div>
           <div className="flex items-center gap-4">
             <a
-              href="#"
+              href="https://yasirarafath.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -34,7 +34,7 @@ const Footer = () => {
               <Briefcase className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/mdyasirarafath"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -43,7 +43,7 @@ const Footer = () => {
               <Linkedin className="w-5 h-5" />
             </a>
             <a
-              href="https://github.com/mdyasir"
+              href="https://github.com/mdyasir1"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-gray-600 transition-colors"

@@ -6,10 +6,44 @@ import { useCart } from "../context/CartContext";
 import { formatCurrency } from "../utils/formatCurrency";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ product }: { product: Product }) => {
+interface ProductCardProps {
+  product: Product;
+  searchQuery?: string;
+}
+
+const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
   const { addToCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
+
+  // Function to highlight search terms
+  const highlightText = (text: string, query?: string) => {
+    if (!query || !text) return text;
+
+    try {
+      const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = new RegExp(`(${escapedQuery})`, "gi");
+      const parts = text.split(regex);
+
+      return parts.map((part, index) => {
+        // Check if this part matches the query (case insensitive)
+        if (part.toLowerCase() === query.toLowerCase()) {
+          return (
+            <mark
+              key={index}
+              className="bg-yellow-200 text-gray-800 px-1 rounded"
+            >
+              {part}
+            </mark>
+          );
+        }
+        return part;
+      });
+    } catch {
+      // Fallback to original text if regex fails
+      return text;
+    }
+  };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -92,12 +126,12 @@ const ProductCard = ({ product }: { product: Product }) => {
       <div className="p-4">
         <Link to={`/product/${product.id}`}>
           <h3 className="font-semibold text-gray-800 mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
-            {product.title}
+            {highlightText(product.title, searchQuery)}
           </h3>
         </Link>
 
         <p className="text-sm text-gray-500 mb-2 line-clamp-2">
-          {product.description}
+          {highlightText(product.description, searchQuery)}
         </p>
 
         {/* Rating */}
