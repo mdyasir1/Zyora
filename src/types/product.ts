@@ -5,6 +5,9 @@ export interface Product {
     price: number;
     thumbnail: string;
     category: string;
-    rating: number; // ✅ Added
+    rating: number;
+    stock: number;
+    discountPercentage: number;
+    brand?: string;
   }
   
