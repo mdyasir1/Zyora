@@ -58,16 +58,20 @@ const Home = () => {
   // Sort products
   switch (sortBy) {
     case "price-low":
-      filtered = [...filtered].sort((a, b) => a.price - b.price);
+      filtered = [...filtered].sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
       break;
     case "price-high":
-      filtered = [...filtered].sort((a, b) => b.price - a.price);
+      filtered = [...filtered].sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
       break;
     case "rating":
-      filtered = [...filtered].sort((a, b) => b.rating - a.rating);
+      filtered = [...filtered].sort(
+        (a, b) => (b.rating ?? 0) - (a.rating ?? 0)
+      );
       break;
     case "name":
-      filtered = [...filtered].sort((a, b) => a.title.localeCompare(b.title));
+      filtered = [...filtered].sort((a, b) =>
+        (a.title ?? "").localeCompare(b.title ?? "")
+      );
       break;
     default:
       break;

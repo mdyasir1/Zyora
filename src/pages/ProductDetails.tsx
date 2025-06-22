@@ -89,7 +89,7 @@ const ProductDetails = () => {
           >
             <div className="aspect-square bg-white rounded-lg shadow-sm overflow-hidden">
               <img
-                src={product.images[selectedImage]}
+                src={product.images?.[selectedImage] || product.thumbnail}
                 alt={product.title}
                 className="w-full h-full object-cover"
               />
@@ -97,7 +97,7 @@ const ProductDetails = () => {
 
             {/* Thumbnail Images */}
             <div className="grid grid-cols-5 gap-2">
-              {product.images.slice(0, 5).map((image, index) => (
+              {product.images?.slice(0, 5).map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -113,7 +113,12 @@ const ProductDetails = () => {
                     className="w-full h-full object-cover"
                   />
                 </button>
-              ))}
+              )) || (
+                // Fallback when no images are available
+                <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
+                  <span className="text-gray-500 text-sm">No images</span>
+                </div>
+              )}
             </div>
           </motion.div>
 
@@ -138,12 +143,12 @@ const ProductDetails = () => {
                   </span>
                 </div>
                 <span className="text-green-600 font-medium">
-                  {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                  {product?.stock??0 > 0 ? "In Stock" : "Out of Stock"}
                 </span>
               </div>
 
               <div className="text-3xl font-bold text-blue-600 mb-6">
-                {formatCurrency(product.price)}
+                {formatCurrency(product?.price??0)}
               </div>
             </div>
 

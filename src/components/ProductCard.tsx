@@ -109,7 +109,7 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
           </motion.div>
 
           {/* Stock Badge */}
-          {product.stock < 10 && product.stock > 0 && (
+          {(product.stock??0) < 10 && (product.stock??0) > 0 && (
             <div className="absolute top-3 left-3 bg-orange-500 text-white text-xs px-2 py-1 rounded-full">
               Only {product.stock} left
             </div>
@@ -126,12 +126,12 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
       <div className="p-4">
         <Link to={`/product/${product.id}`}>
           <h3 className="font-semibold text-gray-800 mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
-            {highlightText(product.title, searchQuery)}
+            {highlightText(product.title??'', searchQuery)}
           </h3>
         </Link>
 
         <p className="text-sm text-gray-500 mb-2 line-clamp-2">
-          {highlightText(product.description, searchQuery)}
+          {highlightText(product.description??"", searchQuery)}
         </p>
 
         {/* Rating */}
@@ -141,7 +141,7 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
               <Star
                 key={i}
                 className={`w-3 h-3 ${
-                  i < Math.floor(product.rating)
+                  i < Math.floor(product.rating??0)
                     ? "fill-yellow-400 text-yellow-400"
                     : "text-gray-300"
                 }`}
@@ -155,15 +155,15 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
         <div className="flex items-center justify-between mb-3">
           <div>
             <p className="font-bold text-lg text-blue-600">
-              {formatCurrency(product.price)}
+              {formatCurrency(product.price??0)}
             </p>
             <p className="text-xs text-gray-500 capitalize">{product.brand}</p>
           </div>
 
           {/* Discount Badge */}
-          {product.discountPercentage > 0 && (
+          {(product.discountPercentage??0) > 0 && (
             <div className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
-              -{Math.round(product.discountPercentage)}%
+              -{Math.round(product.discountPercentage??0)}%
             </div>
           )}
         </div>

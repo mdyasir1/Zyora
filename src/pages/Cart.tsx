@@ -80,7 +80,7 @@ const Cart = () => {
                       <div className="flex items-center border border-gray-200 rounded-lg">
                         <button
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
+                            updateQuantity(item?.id??0, item.quantity - 1)
                           }
                           className="px-3 py-1 hover:bg-gray-100 transition-colors"
                         >
@@ -91,7 +91,7 @@ const Cart = () => {
                         </span>
                         <button
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
+                            updateQuantity(item?.id??0, item.quantity + 1)
                           }
                           className="px-3 py-1 hover:bg-gray-100 transition-colors"
                         >
@@ -99,7 +99,7 @@ const Cart = () => {
                         </button>
                       </div>
                       <button
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => removeFromCart(item?.id??0)}
                         className="text-red-500 hover:text-red-700 transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -108,10 +108,10 @@ const Cart = () => {
                   </div>
                   <div className="text-right ml-4">
                     <p className="font-semibold text-gray-800">
-                      {formatCurrency(item.price * item.quantity)}
+                      {formatCurrency(item?.price??0 * item.quantity)}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {formatCurrency(item.price)} each
+                      {formatCurrency(item?.price??0)} each
                     </p>
                   </div>
                 </motion.div>
