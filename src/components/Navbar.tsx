@@ -1,36 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, ShoppingCart, Menu, X, User, Heart } from "lucide-react";
+import { ShoppingCart, Menu, X, User, Heart } from "lucide-react";
 import { useCart } from "../context/CartContext";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { getTotalItems } = useCart();
-  const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  // Sync search input with URL parameters
-  useEffect(() => {
-    const urlSearchQuery = searchParams.get("search") || "";
-    setSearchQuery(urlSearchQuery);
-  }, [searchParams]);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
-    } else {
-      // If search is empty, navigate to home page
-      navigate("/");
-    }
-  };
-
-  const handleClearSearch = () => {
-    setSearchQuery("");
-    navigate("/");
-  };
 
   return (
     <nav className="sticky top-0 bg-white shadow-sm border-b border-gray-100 z-50">
@@ -45,29 +21,6 @@ const Navbar = () => {
               YasirNest
             </span>
           </Link>
-
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-md mx-8">
-            <form onSubmit={handleSearch} className="relative w-full">
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-10 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={handleClearSearch}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 w-4 h-4"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </form>
-          </div>
 
           {/* Navigation Items - Desktop */}
           <div className="hidden md:flex items-center space-x-6">
@@ -120,27 +73,6 @@ const Navbar = () => {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden border-t border-gray-100 py-4"
           >
-            {/* Mobile Search */}
-            <form onSubmit={handleSearch} className="relative mb-4">
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-10 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={handleClearSearch}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 w-4 h-4"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </form>
-
             {/* Mobile Navigation */}
             <div className="space-y-4">
               <Link

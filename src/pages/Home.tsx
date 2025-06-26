@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Grid, List } from "lucide-react";
+import { Search, X } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import { Product } from "../types/product";
 import { useSearchParams } from "react-router-dom";
@@ -8,10 +8,10 @@ import { useSearchParams } from "react-router-dom";
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState<string>("");
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
+  const [searchInput, setSearchInput] = useState(searchQuery);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +30,24 @@ const Home = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    setSearchInput(searchQuery);
+  }, [searchQuery]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      setSearchParams({ search: searchInput.trim() });
+    } else {
+      setSearchParams({});
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput("");
+    setSearchParams({});
+  };
 
   // Filter and sort products
   let filtered = products;
@@ -112,49 +130,42 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 ">
         {/* Filters and Controls */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-end gap-4">
-            {/* Controls */}
-            <div className="flex items-center gap-4">
-              {/* Sort */}
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Sort by</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
-                <option value="name">Name A-Z</option>
-              </select>
-
-              {/* View Mode */}
-              <div className="flex border border-gray-200 rounded-lg">
+        <div className="bg-white rounded-lg shadow-sm px-2 py-2 mb-8">
+          <div className="flex sm:flex-row gap-2 sm:items-center">
+            {/* Search Bar */}
+            <form onSubmit={handleSearch} className="relative flex-1">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="w-full pl-10 pr-10 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              {searchInput && (
                 <button
-                  onClick={() => setViewMode("grid")}
-                  className={`p-2 transition-colors rounded-l-lg ${
-                    viewMode === "grid"
-                      ? "bg-blue-600 text-white"
-                      : "bg-white text-gray-600 hover:bg-gray-50"
-                  }`}
+                  type="button"
+                  onClick={handleClearSearch}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 w-4 h-4"
                 >
-                  <Grid className="w-4 h-4" />
+                  <X className="w-4 h-4" />
                 </button>
-                <button
-                  onClick={() => setViewMode("list")}
-                  className={`p-2 transition-colors rounded-r-lg ${
-                    viewMode === "list"
-                      ? "bg-blue-600 text-white"
-                      : "bg-white text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  <List className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
+              )}
+            </form>
+            {/* Sort Dropdown */}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="w-28 sm:w-48 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Sort by</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="name">Name A-Z</option>
+            </select>
           </div>
         </div>
 
@@ -184,13 +195,7 @@ const Home = () => {
             </button>
           </motion.div>
         ) : (
-          <div
-            className={`grid gap-6 ${
-              viewMode === "grid"
-                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                : "grid-cols-1"
-            }`}
-          >
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filtered.map((product, index) => (
               <motion.div
                 key={product.id}
