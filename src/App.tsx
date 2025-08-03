@@ -5,6 +5,10 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import ProductDetails from "./pages/ProductDetails";
+import Wishlist from "./pages/Wishlist";
+import Account from "./pages/Account";
+import Categories from "./pages/Categories";
+import NotFound from "./pages/NotFound";
 import SplashScreen from "./components/SplashScreen";
 import Footer from "./components/Footer";
 
@@ -23,6 +27,10 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

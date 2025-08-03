@@ -11,6 +11,8 @@ interface ProductCardProps {
   searchQuery?: string;
 }
 
+const USD_TO_INR = 83;
+
 const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
   const { addToCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
@@ -26,7 +28,6 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
       const parts = text.split(regex);
 
       return parts.map((part, index) => {
-        // Check if this part matches the query (case insensitive)
         if (part.toLowerCase() === query.toLowerCase()) {
           return (
             <mark
@@ -40,7 +41,6 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
         return part;
       });
     } catch {
-      // Fallback to original text if regex fails
       return text;
     }
   };
@@ -56,6 +56,11 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
     e.stopPropagation();
     setIsWishlisted(!isWishlisted);
   };
+
+  // Calculate INR values
+  const priceInINR = (product.price ?? 0) * USD_TO_INR;
+  const discountPercent = product.discountPercentage ?? 0;
+  const discountValueINR = (priceInINR * discountPercent) / 100;
 
   return (
     <motion.div
@@ -87,26 +92,6 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
-
-          {/* Quick Actions Overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0 }}
-            className="absolute inset-0 bg-black/20 flex items-center justify-center gap-2"
-          >
-            {/* <button
-              onClick={handleAddToCart}
-              className="p-3 bg-white rounded-full shadow-lg hover:bg-blue-600 hover:text-white transition-colors"
-            >
-              <ShoppingCart className="w-4 h-4" />
-            </button> */}
-            {/* <Link
-              to={`/product/${product.id}`}
-              className="p-3 bg-white rounded-full shadow-lg hover:bg-blue-600 hover:text-white transition-colors"
-            >
-              <Eye className="w-4 h-4" />
-            </Link> */}
-          </motion.div>
 
           {/* Stock Badge */}
           {(product.stock ?? 0) < 10 && (product.stock ?? 0) > 0 && (
@@ -155,15 +140,18 @@ const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
         <div className="flex items-center justify-between mb-3">
           <div>
             <p className="font-bold text-lg text-blue-600">
-              {formatCurrency(product.price ?? 0)}
+              {formatCurrency(priceInINR)}
             </p>
             <p className="text-xs text-gray-500 capitalize">{product.brand}</p>
           </div>
 
           {/* Discount Badge */}
-          {(product.discountPercentage ?? 0) > 0 && (
-            <div className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
-              -{Math.round(product.discountPercentage ?? 0)}%
+          {discountPercent > 0 && (
+            <div className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium text-center">
+              -{Math.round(discountPercent)}% <br />
+              <span className="text-green-500">
+                Save {formatCurrency(discountValueINR)}
+              </span>
             </div>
           )}
         </div>

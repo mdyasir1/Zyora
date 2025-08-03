@@ -25,17 +25,17 @@ const Navbar = () => {
           {/* Navigation Items - Desktop */}
           <div className="hidden md:flex items-center space-x-6">
             <Link
-              to="/"
-              className="text-gray-600 hover:text-gray-900 transition-colors font-medium"
+              to="/wishlist"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              Home
-            </Link>
-            <button className="text-gray-600 hover:text-gray-900 transition-colors">
               <Heart className="w-5 h-5" />
-            </button>
-            <button className="text-gray-600 hover:text-gray-900 transition-colors">
+            </Link>
+            <Link
+              to="/account"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
               <User className="w-5 h-5" />
-            </button>
+            </Link>
 
             {/* Cart */}
             <Link to="/cart" className="relative">
@@ -76,13 +76,6 @@ const Navbar = () => {
             {/* Mobile Navigation */}
             <div className="space-y-4">
               <Link
-                to="/"
-                onClick={() => setIsMenuOpen(false)}
-                className="block text-gray-600 hover:text-gray-900 transition-colors font-medium"
-              >
-                Home
-              </Link>
-              <Link
                 to="/cart"
                 onClick={() => setIsMenuOpen(false)}
                 className="flex items-center justify-between text-gray-600 hover:text-gray-900 transition-colors font-medium"
@@ -94,14 +87,22 @@ const Navbar = () => {
                   </span>
                 )}
               </Link>
-              <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors font-medium">
+              <Link
+                to="/wishlist"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center text-gray-600 hover:text-gray-900 transition-colors font-medium"
+              >
                 <Heart className="w-5 h-5 mr-2" />
                 Wishlist
-              </button>
-              <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors font-medium">
+              </Link>
+              <Link
+                to="/account"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center text-gray-600 hover:text-gray-900 transition-colors font-medium"
+              >
                 <User className="w-5 h-5 mr-2" />
                 Account
-              </button>
+              </Link>
             </div>
           </motion.div>
         )}
