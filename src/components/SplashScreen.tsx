@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
 
 const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {

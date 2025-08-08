@@ -13,8 +13,8 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, searchQuery }: ProductCardProps) => {
   const { addToCart } = useCart();
-  const [isHovered, setIsHovered] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const USD_TO_INR = 83;
 
   // Function to highlight search terms

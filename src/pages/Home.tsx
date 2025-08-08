@@ -2,25 +2,25 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Search, X, Sparkles } from "lucide-react";
 import ProductCard from "../components/ProductCard";
-import { Product } from "../types/product";
+import { Product, CategoryColors } from "../types/product";
 import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [sortBy, setSortBy] = useState<string>("");
 
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
   const categoryParam = searchParams.get("category") || "";
 
-  const [searchInput, setSearchInput] = useState(searchQuery);
+  const [searchInput, setSearchInput] = useState<string>(searchQuery);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam);
   const [showAllProducts, setShowAllProducts] = useState<boolean>(!!categoryParam || !!searchQuery);
 
   // Dynamic color generation based on category name
-  const getCategoryColors = (category: string, index: number) => {
+  const getCategoryColors = (_category: string, index: number): CategoryColors => {
     const colorPalettes = [
       {
         bg: "bg-blue-50",
@@ -183,7 +183,14 @@ const Home = () => {
   let filtered = products;
 
   if (selectedCategory && !searchQuery) {
-    filtered = filtered.filter((product) => product.category === selectedCategory);
+    // Example for map
+ 
+    
+    // Example for filter
+    filtered = filtered.filter((product: Product) => product.category === selectedCategory);
+    
+    // Example for sort
+    filtered = [...filtered].sort((a: Product, b: Product) => (a.price || 0) - (b.price || 0));
   }
 
   if (searchQuery) {
@@ -259,7 +266,7 @@ const Home = () => {
                 type="text"
                 placeholder="Search products..."
                 value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
                 className="w-full pl-10 pr-10 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -278,7 +285,7 @@ const Home = () => {
             {selectedCategory && !searchQuery && (
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortBy(e.target.value)}
                 className="w-28 sm:w-48 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Sort by</option>

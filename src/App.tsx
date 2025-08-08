@@ -12,7 +12,7 @@ import SplashScreen from "./components/SplashScreen";
 import Footer from "./components/Footer";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   return loading ? (
     <SplashScreen onFinish={() => setLoading(false)} />

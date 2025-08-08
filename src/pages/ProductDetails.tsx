@@ -10,9 +10,9 @@ const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [selectedImage, setSelectedImage] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
   const USD_TO_INR = 83;
 
   useEffect(() => {

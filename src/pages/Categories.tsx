@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Product } from "../types/product";
+import { Product, CategoryColors } from "../types/product";
 import { Sparkles } from "lucide-react";
 
 const Categories = () => {
   const [categories, setCategories] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Dynamic color generation based on category name
-  const getCategoryColors = (category: string, index: number) => {
+  const getCategoryColors = (_category: string, index: number): CategoryColors => {
     const colorPalettes = [
       {
         bg: "bg-blue-50",
