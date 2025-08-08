@@ -331,12 +331,6 @@ const Home = () => {
                       duration: 0.5,
                       ease: "easeOut",
                     }}
-                    whileHover={{
-                      scale: 1.05,
-                      y: -8,
-                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-                    }}
-                    whileTap={{ scale: 0.98 }}
                     className="group cursor-pointer"
                     onClick={() => handleCategorySelect(category)}
                   >
@@ -345,7 +339,7 @@ const Home = () => {
                         className={`
                         relative overflow-hidden rounded-3xl 
                         bg-white border-2 ${colors.border}
-                        group-hover:shadow-2xl transition-all duration-500
+                        shadow-sm hover:shadow-md transition-all duration-300
                         aspect-square flex flex-col items-center justify-center p-3 sm:p-6
                         ${colors.bg}
                       `}
@@ -359,8 +353,8 @@ const Home = () => {
                         {/* Gradient overlay on hover */}
                         <div
                           className={`
-                          absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-20 
-                          transition-all duration-500 ${colors.gradient}
+                          absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 
+                          transition-all duration-300 ${colors.gradient}
                         `}
                         ></div>
 
@@ -370,19 +364,11 @@ const Home = () => {
                             className={`
                             font-bold text-sm sm:text-base md:text-lg capitalize mb-1 sm:mb-2 leading-tight
                             ${colors.text}
-                            group-hover:scale-105 transition-transform duration-300
                           `}
                           >
                             {category.replace(/-/g, " ")}
                           </h3>
                         </div>
-
-                        {/* Floating decorative elements */}
-                        <div className="absolute top-3 right-3 w-2 h-2 bg-gray-300 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse"></div>
-                        <div className="absolute bottom-3 left-3 w-1 h-1 bg-gray-300 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200 animate-pulse"></div>
-
-                        {/* Shine effect on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 group-hover:animate-pulse transition-all duration-700"></div>
                       </div>
                     </div>
                   </motion.div>
