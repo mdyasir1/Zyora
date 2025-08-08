@@ -302,10 +302,9 @@ const Home = () => {
         {!showAllProducts && (
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Categories</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
               {categories.map((category, index) => {
                 const colors = getCategoryColors(category, index);
-                const initials = getCategoryInitials(category);
 
                 return (
                   <motion.div
@@ -332,7 +331,7 @@ const Home = () => {
                         relative overflow-hidden rounded-3xl 
                         bg-white border-2 ${colors.border}
                         group-hover:shadow-2xl transition-all duration-500
-                        aspect-square flex flex-col items-center justify-center p-6
+                        aspect-square flex flex-col items-center justify-center p-3 sm:p-6
                         ${colors.bg}
                       `}
                       >
@@ -350,38 +349,17 @@ const Home = () => {
                         `}
                         ></div>
 
-                        {/* Icon container with gradient */}
-                        <div
-                          className={`
-                          relative z-10 mb-6 p-4 rounded-2xl 
-                          bg-gradient-to-br ${colors.gradient} 
-                          group-hover:scale-110 group-hover:rotate-3 transition-all duration-500
-                          shadow-lg group-hover:shadow-xl
-                        `}
-                        >
-                          <div className="text-white text-2xl font-bold">
-                            {initials}
-                          </div>
-                        </div>
-
                         {/* Category name */}
                         <div className="relative z-10 text-center">
                           <h3
                             className={`
-                            font-bold text-lg capitalize mb-2 leading-tight
+                            font-bold text-sm sm:text-base md:text-lg capitalize mb-1 sm:mb-2 leading-tight
                             ${colors.text}
                             group-hover:scale-105 transition-transform duration-300
                           `}
                           >
                             {category.replace(/-/g, " ")}
                           </h3>
-                          <div className="flex items-center justify-center gap-1">
-                            <Sparkles className="w-3 h-3 text-gray-400" />
-                            <p className="text-xs text-gray-500 font-medium">
-                              Explore
-                            </p>
-                            <Sparkles className="w-3 h-3 text-gray-400" />
-                          </div>
                         </div>
 
                         {/* Floating decorative elements */}
@@ -403,13 +381,13 @@ const Home = () => {
         {showAllProducts && (
           <>
             {selectedCategory && !searchQuery && (
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 capitalize">{selectedCategory}</h2>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 capitalize">{selectedCategory}</h2>
                 <button
                   onClick={() => {
                     setSearchParams({});
                   }}
-                  className="text-blue-600 hover:text-blue-800 font-medium"
+                  className="text-sm sm:text-base text-blue-600 hover:text-blue-800 font-medium"
                 >
                   Back to Categories
                 </button>
