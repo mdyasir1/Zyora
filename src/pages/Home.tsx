@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Search, X, Sparkles } from "lucide-react";
+import { Search, X } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import { Product, CategoryColors } from "../types/product";
 import { useSearchParams } from "react-router-dom";
@@ -16,11 +16,17 @@ const Home = () => {
 
   const [searchInput, setSearchInput] = useState<string>(searchQuery);
   const [categories, setCategories] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam);
-  const [showAllProducts, setShowAllProducts] = useState<boolean>(!!categoryParam || !!searchQuery);
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>(categoryParam);
+  const [showAllProducts, setShowAllProducts] = useState<boolean>(
+    !!categoryParam || !!searchQuery
+  );
 
   // Dynamic color generation based on category name
-  const getCategoryColors = (_category: string, index: number): CategoryColors => {
+  const getCategoryColors = (
+    _category: string,
+    index: number
+  ): CategoryColors => {
     const colorPalettes = [
       {
         bg: "bg-blue-50",
@@ -117,15 +123,6 @@ const Home = () => {
     return colorPalettes[index % colorPalettes.length];
   };
 
-  // Generate initials from category name
-  const getCategoryInitials = (category: string) => {
-    return category
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase())
-      .join("")
-      .slice(0, 2);
-  };
-
   // Fetch products once
   useEffect(() => {
     const fetchData = async () => {
@@ -135,7 +132,9 @@ const Home = () => {
         const data = await res.json();
         setProducts(data.products);
 
-        const uniqueCategories = [...new Set(data.products.map((product: Product) => product.category))].filter(Boolean);
+        const uniqueCategories = [
+          ...new Set(data.products.map((product: Product) => product.category)),
+        ].filter(Boolean);
         setCategories(uniqueCategories as string[]);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -184,23 +183,28 @@ const Home = () => {
 
   if (selectedCategory && !searchQuery) {
     // Example for map
- 
-    
+
     // Example for filter
-    filtered = filtered.filter((product: Product) => product.category === selectedCategory);
-    
+    filtered = filtered.filter(
+      (product: Product) => product.category === selectedCategory
+    );
+
     // Example for sort
-    filtered = [...filtered].sort((a: Product, b: Product) => (a.price || 0) - (b.price || 0));
+    filtered = [...filtered].sort(
+      (a: Product, b: Product) => (a.price || 0) - (b.price || 0)
+    );
   }
 
   if (searchQuery) {
     const query = searchQuery.toLowerCase().trim();
-    filtered = filtered.filter((product) =>
-      (product.title && product.title.toLowerCase().includes(query)) ||
-      (product.description && product.description.toLowerCase().includes(query)) ||
-      (product.category && product.category.toLowerCase().includes(query)) ||
-      (product.price && product.price.toString().includes(query)) ||
-      (product.rating && product.rating.toString().includes(query))
+    filtered = filtered.filter(
+      (product) =>
+        (product.title && product.title.toLowerCase().includes(query)) ||
+        (product.description &&
+          product.description.toLowerCase().includes(query)) ||
+        (product.category && product.category.toLowerCase().includes(query)) ||
+        (product.price && product.price.toString().includes(query)) ||
+        (product.rating && product.rating.toString().includes(query))
     );
   }
 
@@ -213,10 +217,14 @@ const Home = () => {
       filtered = [...filtered].sort((a, b) => (b.price || 0) - (a.price || 0));
       break;
     case "rating":
-      filtered = [...filtered].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      filtered = [...filtered].sort(
+        (a, b) => (b.rating || 0) - (a.rating || 0)
+      );
       break;
     case "name":
-      filtered = [...filtered].sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+      filtered = [...filtered].sort((a, b) =>
+        (a.title || "").localeCompare(b.title || "")
+      );
       break;
     default:
       break;
@@ -251,7 +259,8 @@ const Home = () => {
             transition={{ delay: 0.1 }}
             className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto"
           >
-            Shop the latest trends with our curated collection of premium products
+            Shop the latest trends with our curated collection of premium
+            products
           </motion.p>
         </div>
       </div>
@@ -266,7 +275,9 @@ const Home = () => {
                 type="text"
                 placeholder="Search products..."
                 value={searchInput}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSearchInput(e.target.value)
+                }
                 className="w-full pl-10 pr-10 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -285,7 +296,9 @@ const Home = () => {
             {selectedCategory && !searchQuery && (
               <select
                 value={sortBy}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortBy(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setSortBy(e.target.value)
+                }
                 className="w-28 sm:w-48 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Sort by</option>
@@ -301,7 +314,9 @@ const Home = () => {
         {/* Categories Section */}
         {!showAllProducts && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Categories</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+              Categories
+            </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
               {categories.map((category, index) => {
                 const colors = getCategoryColors(category, index);
@@ -382,7 +397,9 @@ const Home = () => {
           <>
             {selectedCategory && !searchQuery && (
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 capitalize">{selectedCategory}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 capitalize">
+                  {selectedCategory}
+                </h2>
                 <button
                   onClick={() => {
                     setSearchParams({});
@@ -401,7 +418,9 @@ const Home = () => {
                 className="text-center py-16"
               >
                 <Search className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">No products found</h3>
+                <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                  No products found
+                </h3>
                 <p className="text-gray-500 mb-4">
                   Try adjusting your search criteria or browse all products
                 </p>
