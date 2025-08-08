@@ -71,7 +71,7 @@ const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
           transition={{ delay: 0.3, duration: 0.8 }}
           className="text-5xl md:text-7xl font-bold text-white mb-4"
         >
-          YasirNest
+          Zyora
         </motion.h1>
 
         {/* Subtitle */}
@@ -85,7 +85,6 @@ const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
         </motion.p>
 
         {/* Sparkles */}
-
 
         {/* Progress Bar */}
         <motion.div

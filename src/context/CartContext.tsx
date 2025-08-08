@@ -25,7 +25,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem("shopnest-cart");
+    const savedCart = localStorage.getItem("zyora-cart");
     if (savedCart) {
       try {
         setCart(JSON.parse(savedCart));
@@ -37,7 +37,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("shopnest-cart", JSON.stringify(cart));
+    localStorage.setItem("zyora-cart", JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (product: Product) => {
@@ -78,7 +78,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + (item.price??0) * item.quantity, 0);
+    const USD_TO_INR = 83;
+    return cart.reduce(
+      (total, item) => total + (item.price ?? 0) * USD_TO_INR * item.quantity,
+      0
+    );
   };
 
   return (

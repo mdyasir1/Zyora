@@ -13,6 +13,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const USD_TO_INR = 83;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -143,12 +144,12 @@ const ProductDetails = () => {
                   </span>
                 </div>
                 <span className="text-green-600 font-medium">
-                  {product?.stock??0 > 0 ? "In Stock" : "Out of Stock"}
+                  {product?.stock ?? 0 > 0 ? "In Stock" : "Out of Stock"}
                 </span>
               </div>
 
               <div className="text-3xl font-bold text-blue-600 mb-6">
-                {formatCurrency(product?.price??0)}
+                {formatCurrency((product?.price ?? 0) * USD_TO_INR)}
               </div>
             </div>
 
